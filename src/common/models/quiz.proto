@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option go_package = "src/common/models";
+
+package quiz;
+
+import "google/protobuf/timestamp.proto";
+
+service Quiz {
+    rpc GetQuestions (QuestionRequest) returns (QuestionResponse) {}
+    rpc AnswerQuiz(AnswerRequest) returns (AnswerResponse) {}
+}
+
+message KeyValue {
+    string id = 1;
+    string value = 2;
+}
+
+message QuizQuestion {
+    KeyValue question = 1;
+
+    repeated KeyValue choices = 2;
+}
+
+message QuestionRequest {}
+message QuestionResponse {
+    repeated QuizQuestion questions = 1;
+    google.protobuf.Timestamp time_taken = 2;
+}
+
+message QuizAnswer {
+    string question_id = 1;
+    string choice_id = 2;
+}
+
+message AnswerRequest {
+    repeated QuizAnswer answers = 1;
+}
+
+message AnswerResponse {
+    int32 correct_answer_count = 1;
+}
