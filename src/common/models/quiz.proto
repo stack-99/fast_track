@@ -4,10 +4,8 @@ option go_package = "src/common/models";
 
 package quiz;
 
-import "google/protobuf/timestamp.proto";
-
 service Quiz {
-    rpc GetQuestions (QuestionRequest) returns (QuestionResponse) {}
+    rpc GetQuizQuestions (QuestionRequest) returns (QuestionResponse) {}
     rpc AnswerQuiz(AnswerRequest) returns (AnswerResponse) {}
 }
 
@@ -25,7 +23,6 @@ message QuizQuestion {
 message QuestionRequest {}
 message QuestionResponse {
     repeated QuizQuestion questions = 1;
-    google.protobuf.Timestamp time_taken = 2;
 }
 
 message QuizAnswer {
@@ -35,6 +32,7 @@ message QuizAnswer {
 
 message AnswerRequest {
     repeated QuizAnswer answers = 1;
+    int32 seconds_taken = 2;
 }
 
 message AnswerResponse {

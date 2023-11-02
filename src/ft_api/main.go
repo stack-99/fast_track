@@ -32,6 +32,6 @@ func main() {
 
 	grpcServer := grpc.NewServer(opts...)
 	quizService := service.NewQuizService()
-	models.RegisterQuiz(grpcServer, quizService)
+	models.RegisterQuizServer(grpcServer, quizService)
 	grpcServer.Serve(lis)
 }

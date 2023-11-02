@@ -1,0 +1,24 @@
+{
+    "questions": [
+        {
+            "question": "When was Go launched?",
+            "choices": [
+                "1994",
+                "1999",
+                "2009",
+                "2020"
+            ],
+            "answer": "2009"
+        },
+        {
+            "question": "What is 2x2?",
+            "choices": [
+                "24",
+                "19",
+                "4",
+                "50"
+            ],
+            "answer": "4"
+        }
+    ]
+}
