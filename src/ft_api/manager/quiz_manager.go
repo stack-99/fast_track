@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
+	"github.com/rs/zerolog/log"
 )
 
 type QuestionStorage interface {
@@ -24,16 +25,17 @@ type QuizManager struct {
 }
 
 func (qz *QuizManager) initialize() {
+	qz.questionAnswers = map[string]string{}
+	qz.userScores = map[string]int32{}
+
 	qz.questionStorage.Initialize(qz.questionsPath)
 
 	loadedQuestions, err := qz.questionStorage.LoadQuestions()
 
 	if err != nil {
+		log.Fatal().Msgf("Unable to load questions")
 		return
 	}
-
-	qz.questionAnswers = map[string]string{}
-	qz.userScores = map[string]int32{}
 
 	for _, question := range loadedQuestions {
 		var quizQuestion models.QuizQuestion
@@ -95,6 +97,7 @@ func (qz *QuizManager) CalculateUserScore(reqUsername string) float32 {
 
 	userScoreLen := int32(len(qz.userScores))
 
+	// Better than others user score
 	return (float32(betterCount+1) / float32(userScoreLen)) * 100
 }
 
