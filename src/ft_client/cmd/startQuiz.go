@@ -34,7 +34,7 @@ func answerQuestions(questionsResp *models.QuestionResponse) []*models.QuizAnswe
 			var chosenChoice uint
 			_, err := fmt.Scanln(&chosenChoice)
 
-			if err == nil && chosenChoice-1 < uint(len(question.Choices)) {
+			if err == nil && chosenChoice > 0 && chosenChoice-1 < uint(len(question.Choices)) {
 				questionChoices = append(questionChoices, &models.QuizAnswer{QuestionId: question.Question.Id,
 					ChoiceId: question.Choices[chosenChoice-1].Id})
 				break
@@ -72,7 +72,7 @@ func startQuiz() {
 		return
 	}
 
-	log.Info().Msgf("You got %d correct out of %d with a score compared to others of %.2f", answerResp.CorrectAnswerCount, len(questionsResp.Questions), answerResp.UserComparedScore)
+	log.Info().Msgf("You got %d correct out of %d with a score compared to others of %.2f%%", answerResp.CorrectAnswerCount, len(questionsResp.Questions), answerResp.UserComparedScore)
 }
 
 // startQuizCmd represents the startQuiz command
