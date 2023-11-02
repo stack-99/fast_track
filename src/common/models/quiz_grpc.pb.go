@@ -24,6 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type QuizClient interface {
 	GetQuizQuestions(ctx context.Context, in *QuestionRequest, opts ...grpc.CallOption) (*QuestionResponse, error)
 	AnswerQuiz(ctx context.Context, in *AnswerRequest, opts ...grpc.CallOption) (*AnswerResponse, error)
+	GetUserScore(ctx context.Context, in *UserScoreRequest, opts ...grpc.CallOption) (*UserScoreResponse, error)
 }
 
 type quizClient struct {
@@ -52,12 +53,22 @@ func (c *quizClient) AnswerQuiz(ctx context.Context, in *AnswerRequest, opts ...
 	return out, nil
 }
 
+func (c *quizClient) GetUserScore(ctx context.Context, in *UserScoreRequest, opts ...grpc.CallOption) (*UserScoreResponse, error) {
+	out := new(UserScoreResponse)
+	err := c.cc.Invoke(ctx, "/quiz.Quiz/GetUserScore", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QuizServer is the server API for Quiz service.
 // All implementations must embed UnimplementedQuizServer
 // for forward compatibility
 type QuizServer interface {
 	GetQuizQuestions(context.Context, *QuestionRequest) (*QuestionResponse, error)
 	AnswerQuiz(context.Context, *AnswerRequest) (*AnswerResponse, error)
+	GetUserScore(context.Context, *UserScoreRequest) (*UserScoreResponse, error)
 	mustEmbedUnimplementedQuizServer()
 }
 
@@ -70,6 +81,9 @@ func (UnimplementedQuizServer) GetQuizQuestions(context.Context, *QuestionReques
 }
 func (UnimplementedQuizServer) AnswerQuiz(context.Context, *AnswerRequest) (*AnswerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AnswerQuiz not implemented")
+}
+func (UnimplementedQuizServer) GetUserScore(context.Context, *UserScoreRequest) (*UserScoreResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserScore not implemented")
 }
 func (UnimplementedQuizServer) mustEmbedUnimplementedQuizServer() {}
 
@@ -120,6 +134,24 @@ func _Quiz_AnswerQuiz_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Quiz_GetUserScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserScoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QuizServer).GetUserScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/quiz.Quiz/GetUserScore",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QuizServer).GetUserScore(ctx, req.(*UserScoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Quiz_ServiceDesc is the grpc.ServiceDesc for Quiz service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -134,6 +166,10 @@ var Quiz_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AnswerQuiz",
 			Handler:    _Quiz_AnswerQuiz_Handler,
+		},
+		{
+			MethodName: "GetUserScore",
+			Handler:    _Quiz_GetUserScore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

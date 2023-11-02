@@ -15,8 +15,16 @@ type QuestionJson struct {
 	Questions []Question
 }
 
-func loadQuestions(filePath string) ([]Question, error) {
-	bytes, err := os.ReadFile(filePath)
+type QuestionJsonStorage struct {
+	filePath string
+}
+
+func (qjs *QuestionJsonStorage) Initialize(filePath string) {
+	qjs.filePath = filePath
+}
+
+func (qjs *QuestionJsonStorage) LoadQuestions() ([]Question, error) {
+	bytes, err := os.ReadFile(qjs.filePath)
 
 	var questions QuestionJson
 

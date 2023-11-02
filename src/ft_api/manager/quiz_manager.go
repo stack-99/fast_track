@@ -8,20 +8,32 @@ import (
 	"github.com/google/uuid"
 )
 
+type QuestionStorage interface {
+	Initialize(path string)
+	LoadQuestions() ([]Question, error)
+}
+
 type QuizManager struct {
+	questionsPath string
+
 	questions       []*models.QuizQuestion
-	questionsPath   string
 	questionAnswers map[string]string
+	userScores      map[string]int32
+
+	questionStorage QuestionStorage
 }
 
 func (qz *QuizManager) initialize() {
-	loadedQuestions, err := loadQuestions(qz.questionsPath)
+	qz.questionStorage.Initialize(qz.questionsPath)
+
+	loadedQuestions, err := qz.questionStorage.LoadQuestions()
 
 	if err != nil {
 		return
 	}
 
 	qz.questionAnswers = map[string]string{}
+	qz.userScores = map[string]int32{}
 
 	for _, question := range loadedQuestions {
 		var quizQuestion models.QuizQuestion
@@ -44,19 +56,46 @@ func (qz *QuizManager) GetQuestions() []*models.QuizQuestion {
 	return qz.questions
 }
 
-func (qz *QuizManager) ValidateAnswers(answerResponses []*models.QuizAnswer) (int32, error) {
+func (qz *QuizManager) ValidateAnswers(username string, answerResponses []*models.QuizAnswer) (int32, error) {
 	var correctCount int32 = 0
 	for _, answerResponse := range answerResponses {
-		if correctAnswerId, ok := qz.questionAnswers[answerResponse.QuestionId]; ok {
-			if correctAnswerId == answerResponse.ChoiceId {
-				correctCount++
-			}
-		} else {
+		correctAnswerId, ok := qz.questionAnswers[answerResponse.QuestionId]
+
+		if !ok {
 			return 0, fmt.Errorf("unable to identify question")
+		}
+
+		if correctAnswerId == answerResponse.ChoiceId {
+			correctCount++
 		}
 	}
 
+	qz.userScores[username] = correctCount
+
 	return correctCount, nil
+}
+
+func (qz *QuizManager) CalculateUserScore(reqUsername string) float32 {
+	reqScore, ok := qz.userScores[reqUsername]
+
+	if !ok {
+		return 0
+	}
+
+	var betterCount int32 = 0
+	for username, score := range qz.userScores {
+		if username == reqUsername {
+			continue
+		}
+
+		if reqScore > score {
+			betterCount++
+		}
+	}
+
+	userScoreLen := int32(len(qz.userScores))
+
+	return (float32(betterCount+1) / float32(userScoreLen)) * 100
 }
 
 var quizManager *QuizManager
@@ -64,7 +103,7 @@ var clientOnce sync.Once
 
 func GetQuizManager() *QuizManager {
 	clientOnce.Do(func() {
-		quizManager = &QuizManager{questionsPath: "questions.json"}
+		quizManager = &QuizManager{questionsPath: "questions.json", questionStorage: &QuestionJsonStorage{}}
 		quizManager.initialize()
 	})
 

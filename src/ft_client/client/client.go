@@ -6,7 +6,9 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/spf13/viper"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
 )
 
@@ -16,11 +18,28 @@ type QuizClient struct {
 
 func (qz *QuizClient) Initialize(host string) error {
 	var opts []grpc.DialOption
-	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+
+	if viper.GetBool("TLS") {
+		var certFile string = viper.GetString("ServerRootCertPath")
+
+		if certFile == "" {
+			certFile = "certs/ca-cert.pem"
+		}
+
+		creds, err := credentials.NewClientTLSFromFile(certFile, "")
+
+		if err != nil {
+			return fmt.Errorf("failed to initialize tls from file: %v", err)
+		}
+
+		opts = append(opts, grpc.WithTransportCredentials(creds))
+	} else {
+		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	}
 
 	conn, err := grpc.Dial(host, opts...)
 	if err != nil {
-		error_ret := fmt.Errorf("fail to dial: %v", err)
+		error_ret := fmt.Errorf("failed to connect to host %s, error = %v", host, err)
 
 		return error_ret
 	}
@@ -31,9 +50,21 @@ func (qz *QuizClient) Initialize(host string) error {
 }
 
 func (qz *QuizClient) GetQuestions() (*models.QuestionResponse, error) {
-	questions_req := &models.QuestionRequest{}
+	questionsReq := &models.QuestionRequest{}
 
-	return qz.GrpcClient.GetQuizQuestions(context.Background(), questions_req)
+	return qz.GrpcClient.GetQuizQuestions(context.Background(), questionsReq)
+}
+
+func (qz *QuizClient) GetUserScore(username string) (float32, error) {
+	userScoreReq := &models.UserScoreRequest{Username: username}
+
+	userScoreRes, err := qz.GrpcClient.GetUserScore(context.Background(), userScoreReq)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return userScoreRes.UserComparedScore, nil
 }
 
 var quizClient *QuizClient
