@@ -19,6 +19,16 @@
                 "50"
             ],
             "answer": "4"
+        },
+        {
+            "question": "How many inches are in a foot?",
+            "choices": [
+                "5",
+                "100",
+                "2",
+                "12"
+            ],
+            "answer": "12"
         }
     ]
 }
