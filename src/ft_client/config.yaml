@@ -1,5 +1,0 @@
-TLS:  true
-ServerCertPath: ""
-ServerKeyPath:  ""
-Host: "localhost"
-Port: 27810

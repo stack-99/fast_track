@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fast_track/client/client"
-	"fast_track/client/cmd"
 	"fmt"
+
+	"github.com/stack-99/fast_track/client/client"
+	"github.com/stack-99/fast_track/client/cmd"
 
 	"os"
 

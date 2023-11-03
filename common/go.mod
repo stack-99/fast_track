@@ -1,4 +1,4 @@
-module fast_track/common
+module github.com/stack-99/fast_track/common
 
 go 1.20
 

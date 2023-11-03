@@ -1,4 +1,4 @@
-module fast_track/api
+module github.com/stack-99/fast_track/api
 
 go 1.20
 
@@ -38,5 +38,3 @@ require (
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace fast_track/common => ../common
