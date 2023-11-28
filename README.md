@@ -1,4 +1,4 @@
-# fast_track
+# A grpc server and client example
 
 ## API
 - GRPC quiz service supports 3 calls
