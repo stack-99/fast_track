@@ -4,7 +4,7 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"github.com/stack-99/fast_track/client/client"
+	"github.com/stack-99/gRPC-example/client/client"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"

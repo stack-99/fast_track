@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 
-	"github.com/stack-99/fast_track/api/manager"
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/api/manager"
+	"github.com/stack-99/gRPC-example/common/models"
 )
 
 type QuizService struct {

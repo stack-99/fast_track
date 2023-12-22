@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/common/models"
 
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"

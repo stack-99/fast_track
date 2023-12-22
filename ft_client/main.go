@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/stack-99/fast_track/client/client"
-	"github.com/stack-99/fast_track/client/cmd"
+	"github.com/stack-99/gRPC-example/client/client"
+	"github.com/stack-99/gRPC-example/client/cmd"
 
 	"os"
 

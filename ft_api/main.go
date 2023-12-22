@@ -5,8 +5,8 @@ import (
 	"net"
 	"os"
 
-	"github.com/stack-99/fast_track/api/service"
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/api/service"
+	"github.com/stack-99/gRPC-example/common/models"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

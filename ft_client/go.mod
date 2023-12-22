@@ -1,4 +1,4 @@
-module github.com/stack-99/fast_track/client
+module github.com/stack-99/gRPC-example/client
 
 go 1.20
 
@@ -6,7 +6,7 @@ require (
 	github.com/rs/zerolog v1.31.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.17.0
-	github.com/stack-99/fast_track/common v0.0.0-20231103165851-711e16ee2f0b
+	github.com/stack-99/gRPC-example/common v0.0.0-20231103165851-711e16ee2f0b
 	google.golang.org/grpc v1.58.2
 )
 

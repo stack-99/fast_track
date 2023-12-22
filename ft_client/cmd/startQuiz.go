@@ -14,8 +14,8 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	"github.com/stack-99/fast_track/client/client"
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/client/client"
+	"github.com/stack-99/gRPC-example/common/models"
 )
 
 var username string

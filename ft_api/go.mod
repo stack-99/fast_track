@@ -1,4 +1,4 @@
-module github.com/stack-99/fast_track/api
+module github.com/stack-99/gRPC-example/api
 
 go 1.20
 
@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.3.1
 	github.com/rs/zerolog v1.31.0
 	github.com/spf13/viper v1.17.0
-	github.com/stack-99/fast_track/common v0.0.0-20231103165851-711e16ee2f0b
+	github.com/stack-99/gRPC-example/common v0.0.0-20231103165851-711e16ee2f0b
 	github.com/stretchr/testify v1.8.4
 	google.golang.org/grpc v1.59.0
 )

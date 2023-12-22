@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/common/models"
 
 	"github.com/stretchr/testify/assert"
 )

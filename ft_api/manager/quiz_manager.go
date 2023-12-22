@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/stack-99/fast_track/common/models"
+	"github.com/stack-99/gRPC-example/common/models"
 
 	"github.com/google/uuid"
 	"github.com/rs/zerolog/log"
