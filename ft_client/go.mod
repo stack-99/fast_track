@@ -6,8 +6,8 @@ require (
 	github.com/rs/zerolog v1.31.0
 	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.17.0
-	github.com/stack-99/gRPC-example/common v0.0.0-20231103165851-711e16ee2f0b
-	google.golang.org/grpc v1.58.2
+	github.com/stack-99/gRPC-example/common v0.0.0-20231222214251-0eb3f19aedfd
+	google.golang.org/grpc v1.59.0
 )
 
 require (
